@@ -10,13 +10,10 @@ body {
   height: 100vh;
   overflow: hidden;
   background-color: #000000;
-  
-  /* Foto Background */
   background-image: url('../hitamn.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
   font-family: 'Space Grotesk', sans-serif;
   display: flex;
   align-items: center;
@@ -30,18 +27,18 @@ body {
   z-index: 1;
 }
 
-/* TOMBOL BACK TO WORKS (Pojok Kiri Atas UI Canvas) */
+/* TOMBOL BACK TO WORKS (Proporsional sesuai referensi) */
 .back-link {
   position: fixed;
-  top: 6rem;          /* Disesuaikan persis di bawah toolbar Photoshop UI */
-  left: 4.2vw;         /* Sejajar dengan batas kiri ruler */
+  top: 2rem;
+  left: 3.5vw;
   z-index: 50;
   color: #ffffff;
   text-decoration: none;
-  font-family: 'Space Grotesk', 'DM Mono', sans-serif;
-  font-size: 3.1rem;   /* Ukuran teks diperbesar */
-  font-weight: 700;    /* Bold tebal */
-  letter-spacing: 0.08em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem; /* Ukuran pas, tidak raksasa */
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
