@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Detail — Zaidan Ghifar</title>
+  <link rel="stylesheet" href="page 4.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Overlay Gelap agar gambar background tidak terlalu terang -->
+  <div class="bg-overlay"></div>
+
+  <!-- Tombol Back to Works -->
+  <a href="../ikiweh.html#works" class="back-link">&larr; BACK TO WORKS</a>
+
+  <!-- Tombol Navigasi Panah -->
+  <button class="nav-btn prev-btn" id="prevBtn">&lt;</button>
+  <button class="nav-btn next-btn" id="nextBtn">&gt;</button>
+
+  <!-- Container Slider Utama -->
+  <div class="slider-viewport">
+    <div class="slider-track" id="sliderTrack">
+
+      <!-- SLIDE 1 (3 Poster) -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../cherrypop jos.jpg" alt="Poster 1"></div>
+          <div class="card"><img src="../smrg 2.jpg" alt="Poster 2"></div>
+          <div class="card"><img src="../yaeh 22.jpg" alt="Poster 3"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 (3 Poster) -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../revolver.png" alt="Poster 4"></div>
+          <div class="card"><img src="../drugs.png" alt="Poster 5"></div>
+          <div class="card"><img src="../zydan dark.jpg" alt="Poster 6"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 (3 Poster) -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../far project 1 asset.png" alt="Poster 8"></div>
+        </div>
+      </div>
+
+  <!-- JavaScript Kontrol Slider -->
+  <script>
+    const track = document.getElementById('sliderTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slides = document.querySelectorAll('.slide-item');
+
+    let currentIndex = 0;
+
+    function updateSlider() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < slides.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Kembali ke slide awal
+      }
+      updateSlider();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = slides.length - 1; // Ke slide terakhir
+      }
+      updateSlider();
+    });
+  </script>
+</body>
+</html>

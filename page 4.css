@@ -1,0 +1,275 @@
+/* RESET & LAYOUT DASAR */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000000;
+  
+  /* Foto Background */
+  background-image: url('../hitamn.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  font-family: 'Space Grotesk', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1;
+}
+
+/* TOMBOL BACK TO WORKS */
+.back-link {
+  position: fixed;
+  top: 2rem;
+  left: 3.5vw;
+  z-index: 100; /* Ditingkatkan agar selalu di paling atas */
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+.back-link:hover {
+  opacity: 0.7;
+}
+
+/* VIEWPORT & TRACK SLIDER */
+.slider-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide-item {
+  min-width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* DIUBAH: Ditambah ruang bebas menjadi 7rem di kiri-kanan agar kartu tidak mengenai tombol */
+  padding: 0 7rem;
+}
+
+/* GRID 3 POSTER - UKURAN TINGGI BESAR */
+.card-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2vw;
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  /* KUNCI UTAMA: TINGGI 78% DARI LAYAR BROWSER */
+  height: 78vh; 
+  /* DIUBAH: Diberi max-width agar dalam skenario layar lebar kartu tidak terlalu melebar ke samping */
+  max-width: calc((100vw - 16rem) / 3);
+  width: auto;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.card img {
+  height: 100%;
+  width: 100%;
+  /* Menjaga bentuk poster tetap utuh (ratio asli) */
+  object-fit: contain; 
+  display: block;
+}
+
+/* TOMBOL NAVIGASI SLIDE */
+.nav-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  /* DIUBAH: z-index dinaikkan ke 100 agar selalu berada di atas semua slide/gambar */
+  z-index: 100;
+  
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  
+  background: rgba(18, 18, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  
+  font-size: 0.8rem;
+  font-weight: 400;
+  
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+}
+
+/* DIUBAH: Posisi tombol didekatkan sedikit ke tepi layar */
+.prev-btn { left: 1.5rem; }
+.next-btn { right: 1.5rem; }
+
+/* ==========================================================================
+   TAMPILAN KHUSUS MOBILE & TABLET (DESKTOP DI ATAS SAMA SEKALI TIDAK BERUBAH)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important; /* Membuka scroll vertikal di HP */
+    display: block !important;
+    position: relative !important;
+  }
+
+  /* Mengatur tombol Back To Works agar rapi dan tidak tertutup */
+  .back-link {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    font-size: 1.5rem !important;
+    padding: 1.5rem 1rem 0.5rem 1.5rem !important;
+    z-index: 100 !important;
+    width: fit-content !important;
+  }
+
+  /* Membuka pembungkus slider agar mengalir ke bawah secara vertikal */
+  .slider-viewport {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .slider-track {
+    display: flex !important;
+    flex-direction: column !important; /* Menyusun ke bawah */
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important; /* Matikan efek geser slider horizontal */
+  }
+
+  .slide-item {
+    min-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 1rem 1.5rem 2rem 1.5rem !important;
+  }
+
+  /* Grid poster berjejer vertikal dari atas ke bawah */
+  .card-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    gap: 2rem !important;
+  }
+
+  .card {
+    width: 100% !important;
+    height: auto !important; /* Mengikuti ukuran poster asli tanpa terpotong */
+    max-width: 100% !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .card img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  /* Sembunyikan tombol panah lingkaran di HP */
+  .nav-btn {
+    display: none !important;
+  }
+}
+
+  /* TOMBOL BACK TO WORKS (Pojok Kiri Atas UI Canvas) */
+  .back-link {
+  position: fixed;
+  top: 6rem;          /* Disesuaikan persis di bawah toolbar Photoshop UI */
+  left: 4.2vw;         /* Sejajar dengan batas kiri ruler */
+  z-index: 50;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Space Grotesk', 'DM Mono', sans-serif;
+/* Ubah nilainya, misal dari 1.5rem menjadi 1rem atau 1.2rem */
+  font-size: 0.8rem !important;
+  font-weight: 700;    /* Bold tebal */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+  .back-link:hover {
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   FIX POSTER OVERLAP SAAT BELUM DI-SCROLL (MOBILE ONLY)
+   ========================================================================== */
+  
+  /* 1. Header Back to Works Melayang */
+  .back-to-works,
+  a[href*="works"],
+  a[href*="index.html"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 1.5rem 4vw !important;
+    z-index: 1000 !important;
+    mix-blend-mode: difference !important;
+    color: #FFFFFF !important;
+    background: transparent !important;
+  }
+
+  /* 2. Memberi Ruang di Atas Poster Agar Tidak Terpotong */
+  body, 
+  main,
+  .project-detail-container,
+  .poster-wrapper {
+    padding-top: 4rem !important; /* Dorong isi halaman ke bawah sejauh tinggi header */
+  }

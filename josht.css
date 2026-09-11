@@ -1,0 +1,1770 @@
+/* ==========================================================================
+   DESIGN VARIABLES & RESET
+   ========================================================================== */
+:root {
+  --bg-color: #000000;
+  --text-color: #FFFFFF;
+  --secondary-color: #A0A0A0;
+  --accent-color: #8C0505;
+  --dark-bg: #000000;
+  --dark-text: #FFFFFF;
+  
+  --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY & UTILITIES
+   ========================================================================== */
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-primary);
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 4vw;
+}
+
+.section-padding {
+  padding: 12vw 0;
+}
+
+.accent-text {
+  color: var(--accent-color);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-bottom: 3rem;
+}
+
+/* ==========================================================================
+   CUSTOM CURSOR
+   ========================================================================== */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 90px;
+  background-color: var(--accent-color);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+  transition: opacity 0.3s ease, transform 0.3s var(--transition-smooth);
+}
+
+.cursor-text {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+}
+
+.custom-cursor.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ==========================================================================
+   PRELOADER
+   ========================================================================== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transition: opacity 0.8s var(--transition-smooth), visibility 0.8s var(--transition-smooth);
+}
+
+.preloader-content {
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.preloader-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 2rem;
+  letter-spacing: -0.03em;
+}
+
+.preloader-bar-wrapper {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.preloader-bar {
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent-color);
+  transition: width 0.1s linear;
+}
+
+.preloader-number {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  mix-blend-mode: difference;
+  color: #FFFFFF;
+  transition: padding 0.3s ease;
+}
+
+.brand-logo {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.03em;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-family: var(--font-primary);
+  letter-spacing: 0.05em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #00FF66;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero-section {
+  min-height: 100vh;
+  padding: 8rem 4vw 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.hero-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 12fr;
+}
+
+.hero-text-block {
+  z-index: 2;
+  position: relative;
+}
+
+.hero-title {
+  font-size: clamp(3.5rem, 9.5vw, 12rem);
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: clamp(2.5rem, 7.5vw, 9rem);
+  line-height: 0.9;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-description {
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  max-width: 500px;
+  color: var(--secondary-color);
+  margin-left: auto;
+  line-height: 1.4;
+}
+
+.hero-visual-wrapper {
+  position: absolute;
+  right: 5%;
+  top: 15%;
+  width: 35vw;
+  height: 45vw;
+  max-width: 500px;
+  max-height: 650px;
+  z-index: 1;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+.hero-video, .hero-visual-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-footer {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.scroll-indicator {
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   POLICE LINE / CAUTION TAPE MARQUEE
+   ========================================================================== */
+.police-tape-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4rem 0;
+  overflow: hidden;
+}
+
+.marquee-police-line {
+  position: absolute;
+  width: 120%;
+  background: repeating-linear-gradient(
+    -45deg,
+    #f2a900,
+    #f2a900 25px,
+    #111111 25px,
+    #111111 50px
+  );
+  color: #111111;
+  padding: 0.7rem 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+}
+
+.marquee-tape-1 {
+  transform: rotate(-4deg) scale(1.05);
+  z-index: 5;
+}
+
+.marquee-tape-2 {
+  transform: rotate(4deg) scale(1.05);
+  z-index: 6;
+}
+
+.marquee-police-line .marquee-content span {
+  background-color: #f2a900;
+  color: #111111;
+  padding: 0.2rem 0.8rem;
+  font-family: var(--font-primary);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.marquee-police-line .marquee-content {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 900;
+}
+
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  padding: 1.5rem 0;
+  display: flex;
+}
+
+.marquee-clients {
+  background-color: transparent;
+  color: var(--text-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2.5rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+.marquee-left .marquee-content, .marquee-left .client-list {
+  animation: marqueeLeft 30s linear infinite;
+}
+
+.marquee-right .marquee-content {
+  animation: marqueeRight 30s linear infinite;
+}
+
+.client-list {
+  display: flex;
+  gap: 5vw;
+  padding-right: 5vw;
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+/* ==========================================================================
+   INTRODUCTION
+   ========================================================================== */
+.statement-title {
+  font-size: clamp(3rem, 8vw, 9rem);
+  margin-bottom: 3rem;
+}
+
+.statement-title .highlight-text {
+  -webkit-text-stroke: 2px var(--text-color);
+  color: transparent;
+}
+
+.intro-body {
+  display: grid;
+  grid-template-columns: 12fr;
+}
+
+.intro-description {
+  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
+  max-width: 900px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   ABOUT SECTION
+   ========================================================================== */
+.about-section {
+  border-top: none; /* Garis bawah tulisan HOW I WORK resmi dihilangkan */
+  border-bottom: none; /* Garis bawah tulisan HOW I WORK resmi dihilangkan */
+  background-color: #000000;
+}
+
+/* TAMPILAN DESKTOP (Layout Awal Presisi: Teks & ABOUT ME di Kiri, Foto di Kanan) */
+.about-grid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 6vw;
+  align-items: start;
+}
+
+.about-content .section-label {
+  display: inline-block;
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-bottom: 3rem;
+}
+
+.about-headline {
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  margin-bottom: 2rem;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--secondary-color);
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+.about-location {
+  display: flex;
+  gap: 4rem;
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+.label-tiny {
+  font-size: 0.75rem;
+  color: var(--secondary-color);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Software Icons */
+.about-software .software-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 4px !important;
+}
+
+.about-software .sw-img,
+.about-software img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+}
+
+.about-portrait-wrapper {
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+  position: sticky;
+  top: 100px;
+  border-radius: 4px;
+}
+
+.about-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease, transform 0.8s var(--transition-smooth);
+}
+
+.about-portrait-wrapper:hover .about-portrait {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+/* TAMPILAN MOBILE & TABLET (Layar dibawah 1024px SAJA) */
+@media (max-width: 1024px) {
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+   .about-text {
+   font-size: 0.7rem;
+   line-height: 1.6;
+   color: var(--secondary-color);
+   margin-bottom: 3rem;
+   max-width: 900px;
+}
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Urutan tampilan khusus di Mobile: ABOUT ME -> FOTO -> TEKS HELLO & DESKRIPSI */
+  .about-content .section-label {
+    order: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-portrait-wrapper {
+    order: -1; /* Memaksa foto naik ke posisi paling atas sebelum teks */
+    position: relative;
+    top: 0;
+    height: auto;
+    max-height: 60vh;
+    margin-bottom: 1rem;
+  }
+
+  .about-portrait {
+    object-fit: contain; /* Agar foto di HP tidak terpotong */
+  }
+
+  .about-headline {
+    order: 3;
+  }
+
+  .about-text {
+    order: 4;
+  }
+
+  .about-location {
+    order: 5;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   SELECTED WORKS (PAS 1 SCREEN FULL / 100VH)
+   ========================================================================== */
+
+.works-section {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 4vw 2rem 4vw; /* Padding atas-bawah diperkecil agar pas 1 layar */
+  box-sizing: border-box;
+  overflow: hidden; /* Mencegah overflow vertikal */
+}
+
+.works-section .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Judul dibuat lebih ringkas */
+.section-header {
+  margin-bottom: 1.5rem; /* Margin dikurangi dari 4rem ke 1.5rem */
+}
+
+.section-title {
+  font-size: clamp(2rem, 4.5vw, 4.5rem); /* Ukuran font disesuaikan agar tidak terlalu dominan */
+  line-height: 0.85;
+}
+
+/* Container Staggered Grid */
+.staggered-works-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem 1.5rem; /* Jarak antar kartu dibuat lebih rapat */
+  width: 100%;
+}
+
+.work-card-link {
+  width: calc(33.333% - 1rem); /* 3 Kolom di baris pertama */
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+  transition: transform 0.3s var(--transition-smooth);
+}
+
+.work-card-link:hover {
+  transform: translateY(-5px);
+}
+
+.work-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Thumbnail dibuat menyesuaikan tinggi layar (viewport height) */
+.work-thumb-wrapper {
+  width: 100%;
+  height: clamp(130px, 22vh, 220px); /* Tinggi fleksibel berdasarkan ukuran layar laptop */
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.work-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--transition-smooth);
+}
+
+.work-card-link:hover .work-thumb {
+  transform: scale(1.05);
+}
+
+.work-label {
+  font-family: var(--font-primary);
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 0.5rem; /* Margin ke label dipersingkat */
+  color: #ffffff;
+}
+
+/* RESPONSIVE UNTUK TABLET & HP (Mencegah tampilan tergeser di layar kecil) */
+@media (max-width: 900px) {
+  .works-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 6rem 4vw 4rem 4vw;
+  }
+  
+  .work-card-link {
+    width: calc(50% - 1rem);
+  }
+
+  .work-thumb-wrapper {
+    height: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .work-card-link {
+    width: 100%;
+  }
+}
+
+/* ===================================================
+   STAGGERED WORKS GRID LAYOUT (3 ATAS, 2 BAWAH)
+   =================================================== */
+
+.staggered-works-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem 2rem; /* Jarak vertikal 3rem, horizontal 2rem */
+  width: 100%;
+  margin-top: 3rem;
+}
+
+/* Mengatur ukuran tiap kartu agar muat 3 item per baris */
+.work-card-link {
+  width: calc(33.333% - 1.35rem);
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.work-card-link:hover {
+  transform: translateY(-8px);
+}
+
+.work-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Label teks berada di tengah bawah kotak */
+  text-align: center;
+}
+
+/* Tempat foto/thumbnail berasio lanskap dengan rounded corner */
+.work-thumb-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: #1a1a1a;
+  border-radius: 12px; /* Sudut melengkung halus seperti gambar referensi */
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.work-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.work-card-link:hover .work-thumb {
+  transform: scale(1.05);
+}
+
+/* Styling teks judul di bawah kotak */
+.work-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  color: #ffffff;
+}
+
+/* RESPONSIVE DESIGN (Layar Tablet & HP) */
+@media (max-width: 900px) {
+  .work-card-link {
+    width: calc(50% - 1rem); /* 2 Kolom di tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .work-card-link {
+    width: 100%; /* 1 Kolom penuh di HP */
+  }
+}
+
+/* ==========================================================================
+   PROCESS SECTION (HOW I WORK)
+   ========================================================================== */
+.process-section {
+  padding: 8vw 0;
+}
+
+/* 1. TAMPILAN DESKTOP ASLI (Jangan Diubah) */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vw;
+  border-top: none; /* Garis bawah tulisan HOW I WORK resmi dihilangkan */
+  padding-top: 3rem;
+}
+
+.process-card {
+  padding-right: 2vw;
+}
+
+.process-num {
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.process-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.process-desc {
+  color: var(--secondary-color);
+  font-size: 1rem;
+}
+
+/* 2. TAMPILAN KHUSUS HP/MOBILE (Di bawah 768px SAJA) */
+/* ==========================================================================
+   PROCESS SECTION (HOW I WORK) - MOBILE HORIZONTAL FIT
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .process-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* Tetap 3 kolom mendatar */
+    gap: 0.8rem !important; /* Jarak antar kolom diperkecil agar muat */
+    border-top: none; /* Garis bawah tulisan HOW I WORK resmi dihilangkan */
+    padding-top: 2rem;
+  }
+
+  .process-card {
+    padding-right: 0 !important;
+  }
+
+  .process-num {
+    font-size: clamp(1.4rem, 5vw, 2.2rem) !important; /* Ukuran angka disesuaikan */
+    color: var(--accent-color) !important; /* Warna tetap mengikuti tema */
+    margin-bottom: 0.2rem !important;
+  }
+
+  .process-title {
+    font-size: clamp(0.85rem, 3.2vw, 1.2rem) !important; /* Ukuran judul disesuaikan */
+    margin-bottom: 0.4rem !important;
+    word-break: break-word;
+  }
+
+  .process-desc {
+    font-size: clamp(0.65rem, 2.2vw, 0.85rem) !important; /* Ukuran deskripsi disesuaikan */
+    line-height: 1.3 !important;
+    color: var(--secondary-color) !important;
+  }
+}
+
+/* ==========================================================================
+   BIG STATEMENT (CINEMATIC)
+   ========================================================================== */
+.statement-cinematic-section {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-text);
+  overflow: hidden;
+  background-color: var(--dark-bg);
+}
+
+.cinematic-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cinematic-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+}
+
+.cinematic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
+}
+
+.cinematic-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.cinematic-title {
+  font-size: clamp(4rem, 12vw, 14rem);
+  line-height: 0.85;
+}
+
+/* ==========================================================================
+   CONTACT & FOOTER
+   ========================================================================== */
+.contact-title {
+  font-size: clamp(3rem, 8vw, 10rem);
+  margin-bottom: 4rem;
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 6rem;
+}
+
+.main-email {
+  font-family: var(--font-primary);
+  font-size: clamp(1.8rem, 4.5vw, 5rem);
+  font-weight: 700;
+  border-bottom: 2px solid var(--text-color);
+  padding-bottom: 0.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1.5rem 3rem;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 100px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--accent-color);
+  color: #FFFFFF;
+}
+
+.social-links {
+  display: flex;
+  gap: 3rem;
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.footer {
+  padding: 3rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.footer-info {
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.back-to-top {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero-visual-wrapper {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: 100%;
+    height: 60vh;
+    max-width: none;
+    margin-top: 3rem;
+  }
+  
+  .project-layout-2 .project-media-wrapper,
+  .project-layout-2 .project-meta,
+  .project-layout-2 .project-desc,
+  .project-layout-3 .project-media-wrapper,
+  .project-layout-3 .project-meta,
+  .project-layout-3 .project-desc,
+  .project-layout-4 .project-media-wrapper,
+  .project-layout-4 .project-meta,
+  .project-layout-4 .project-desc {
+    width: 100%;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-portrait-wrapper {
+    position: relative;
+    top: 0;
+    height: 50vh;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .custom-cursor, .service-preview-img {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1.5rem 4vw;
+  }
+
+  .status-badge {
+    display: none;
+  }
+
+  .nav-links {
+    gap: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-section {
+    padding-top: 8rem;
+  }
+
+  .service-num {
+    display: none;
+  }
+
+  .service-title {
+    width: 100%;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .footer-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+/* ==========================================
+   RESUME / TIMELINE SECTION (EDUCATION & EXPERIENCE)
+   ========================================== */
+.resume-section {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.resume-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 4rem;
+}
+
+.resume-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+}
+
+/* Timeline Container & Vertical Line */
+.timeline-list {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 5px;
+  width: 1.5px;
+  background-color: rgb(255, 255, 255);
+}
+
+/* Timeline Item & Dot */
+.timeline-item {
+  position: relative;
+  margin-bottom: 3.5rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -1.15rem;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* Content Styling */
+.timeline-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.4rem;
+  color: #ffffff;
+}
+
+.timeline-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.timeline-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .resume-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .resume-heading {
+    font-size: 2.5rem;
+  }
+}
+
+/* Styling link sosial media saat di-hover */
+.social-links a {
+  color: #ffffff; /* Warna awal (putih) */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Transisi warna yang halus */
+}
+
+.social-links a:hover {
+  color: #8C0505; /* Berubah menjadi warna merah saat cursor diarahkan */
+}
+
+/* Bikin icon software di About Me tetap kecil dan sejajar */
+.about-software .software-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 6px !important;
+}
+
+.about-software .sw-img,
+.about-software img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+}
+
+/* ==========================================================================
+   FIX ANIMASI MACET DI MODE MOBILE (SAFETY OVERRIDE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Paksa semua teks animasi reveal/GSAP langsung terlihat di HP */
+  .reveal-text,
+  .hero-title span,
+  .hero-subtitle span,
+  .about-headline,
+  .section-title,
+  .contact-title,
+  [data-speed],
+  .parallax-element {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* 2. Matikan kursor kustom yang menutupi layar touch HP */
+  .custom-cursor,
+  #customCursor {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  /* 3. Pastikan container scroll tidak terkunci */
+  html, body {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+}
+
+/* ==========================================================================
+   SOCIAL LINKS HORIZONTAL DI BAWAH START A PROJECT (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Pembungkus Utama Tombol Email & Start A Project */
+  .contact-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* 2. Social Links (Instagram, Behance, LinkedIn) - Horizontal di Bawah Start A Project */
+  .social-links {
+    display: flex !important;
+    flex-direction: row !important; /* Menyamping Horizontal */
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important; /* Rata kiri menyambung dari atas */
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  /* 3. Ukuran Tombol & Font Dikecilkan */
+  .social-links .magnetic-btn {
+    display: inline-flex !important;
+    width: auto !important; /* Lebar sesuai panjang teks */
+    font-size: 0.8rem !important; /* Font dikecilkan */
+    padding: 0.5rem 0.85rem !important; /* Padding lebih kecil */
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ==========================================================================
+   FORCE FIX SPACE KOSONG HOW I WORK (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Atur tinggi section dan hapus padding berlebih */
+  section.process-section,
+  .process-section {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* 2. Kurangi margin di bawah teks HOW I WORK */
+  .process-section .section-label {
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+  }
+
+  /* 3. Paksa grid menjadi flexbox rapat untuk menghilangkan tinggi bawaan */
+  .process-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-top: 0.75rem !important;
+    padding-top: 0 !important;
+    min-height: auto !important;
+    gap: 0.5rem !important;
+  }
+
+  /* 4. Pastikan kartu 01, 02, 03 tidak memiliki height/margin tersembunyi */
+  .process-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+  }
+}
+
+/* ==========================================================================
+   PENYESUAIAN POSISI SELECTED CLIENTS & COLLABORATORS (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Beri jarak atas agar menjauh dari HOW I WORK, tapi potong padding bawahnya */
+  .clients-section {
+    margin-top: 3.5rem !important;    /* Ngedorong teks ke bawah */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;    /* Mangkas jarak bawah section */
+  }
+
+  /* 2. Rapatkan teks ke box marquee running text di bawahnya */
+  .clients-section .section-label {
+    margin-bottom: 2rem !important; /* Bikin makin nempel ke marquee bawah */
+    display: block !important;
+  }
+
+  /* 3. Hilangkan margin bawaan dari marquee running text */
+  .marquee-clients {
+    margin-top: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   MENGECILKAN FONT EDUCATION & EXPERIENCE (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Judul Utama (EDUCATION & EXPERIENCE) */
+  .resume-heading {
+    font-size: 1.5rem !important; /* Dikecilkan dari ukuran desktop */
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* 2. Nama Sekolah / Tempat Intern (SMA Muhammadiyah, UNS, Medsosid, dll) */
+  .timeline-title {
+    font-size: 0.95rem !important; /* Font judul riwayat dikecilkan */
+    line-height: 1.3 !important;
+  }
+
+  /* 3. Sub-judul (misal: Diploma 3 in Visual Communication...) */
+  .timeline-sub {
+    font-size: 0.7rem !important;
+  }
+
+  /* 4. Deskripsi Teks Paragraf Intern/Experience */
+  .timeline-desc {
+    font-size: 0.7rem !important; /* Font deskripsi dikecilkan */
+    line-height: 1.6 !important;
+  }
+}
+
+/* ==========================================================================
+   MENGATUR UKURAN FONT & POSISI HERO SECTION (MOBILE)
+   ========================================================================== */
+  /* 1. Mengatur Posisi Kontainer Teks Utama (Bisa digeser dengan margin/padding) */
+  .hero-text-block {
+    margin-top: 2rem !important;    /* Atur ini untuk menggeser posisi naik/turun */
+    padding-left: 0 !important;      /* Atur padding jika ingin menggeser ke kanan/kiri */
+    text-align: left !important;     /* Pilihan: left, center, atau right */
+  }
+
+  /* 2. Ukuran Font "HI, I'M ZAIDAN." */
+  .hero-title {
+    font-size: clamp(3.5rem, 9.5vw, 12rem);
+    margin-bottom: 1rem;
+}
+
+  /* 3. Ukuran Font "CREATIVE GRAPHIC DESIGNER" */
+  .hero-subtitle {
+    font-size: clamp(3.5rem, 7.5vw, 9rem);
+    line-height: 0.9;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   FIX HERO SPACE KOSONG & SCROLL TO EXPLORE TETAP KANAN (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Potong tinggi 100vh bawaan .hero-section */
+  .hero-section {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 6rem !important;    /* Jarak aman dari navbar atas */
+    padding-bottom: 2rem !important; /* Memangkas area hitam kosong */
+  }
+
+  /* 2. Rapatkan video/visual hero agar proporsional */
+  .hero-visual-wrapper {
+    height: 20vh !important;
+    margin-top: 1.5rem !important;
+  }
+
+  /* 3. Tarik SCROLL TO EXPLORE naik rapat & KUNCI POSISI DI KANAN */
+  .hero-footer {
+    margin-top: 1.5rem !important;   /* Menghapus margin 4rem desktop */
+    justify-content: flex-end !important; /* Tetap berada di sebelah KANAN */
+  }
+
+  .scroll-indicator {
+    font-size: 0.75rem !important;
+    opacity: 0.8;
+  }
+}
+
+/* ==========================================================================
+   MENGECILKAN FONT LABEL/JUDUL ABU-ABU (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Label Umum (ABOUT ME, HOW I WORK, SELECTED CLIENTS & COLLABORATORS) */
+  .section-label,
+  .about-content .section-label,
+  .clients-section .section-label,
+  .process-section .section-label {
+    font-size: 0.7rem !important; /* Dikecilkan dari 0.85rem */
+    letter-spacing: 0.08em !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* 2. Sub-label Informasi (BASED IN, AVAILABLE, SOFTWARE) */
+  .label-tiny {
+    font-size: 0.65rem !important; /* Dikecilkan dari 0.75rem */
+    letter-spacing: 0.05em !important;
+  }
+}
+
+/* ==========================================================================
+   GESER ISI TIMELINE KE KANAN (JUDUL EDUCATION & EXPERIENCE TETAP)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Kembalikan padding section agar Judul EDUCATION & EXPERIENCE tidak geser */
+  .resume-section {
+    padding-left: 0 !important;
+  }
+
+  /* 2. Hanya mendorong daftar isi timeline (garis, titik, & teks) ke kanan */
+  .timeline-list {
+    margin-left: 0.5rem !important;  /* Dorong seluruh blok daftar ke kanan */
+    padding-left: 1.5rem !important; /* Menjaga jarak internal titik ke teks */
+  }
+
+  /* 3. Menjaga posisi garis & titik tetap terkunci rapi di struktur daftar */
+  .timeline-list::before {
+    left: 5px !important;
+  }
+
+  .timeline-dot {
+    left: -1.15rem !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* ==========================================================================
+   UBAH WARNA GARIS TIMELINE MENJADI PUTIH (DESKTOP & MOBILE)
+   ========================================================================== */
+.timeline-list::before {
+  background-color: #ffffff !important; /* Warna garis dibuat putih solid */
+  opacity: 1 !important;                 /* Memastikan tidak ada efek transparan */
+}
+
+/* ==========================================================================
+   FOOTER INFO THREE-COLUMN LAYOUT (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Pembungkus Footer Utama */
+  .footer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.2rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  /* 2. Info Diri: Kiri, Tengah, Kanan tanpa Dot */
+  .footer-info {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important; /* ZAIDAN kiri, CREATIVE tengah, INDONESIA kanan */
+    align-items: center !important;
+    width: 100% !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.05em !important;
+    opacity: 0.8 !important;
+  }
+
+  /* Hilangkan efek titik pemisah */
+  .footer-info span::after,
+  .footer-info span:not(:last-child)::after {
+    content: "" !important;
+    display: none !important;
+  }
+
+  /* Ratakan teks tengah & kanan secara presisi */
+  .footer-info span:nth-child(1) { text-align: left; }
+  .footer-info span:nth-child(2) { text-align: center; }
+  .footer-info span:nth-child(3) { text-align: right; }
+
+  /* 3. Copyright & Back To Top */
+  .footer-right {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .footer-right .copyright {
+    font-size: 0.7rem !important;
+    opacity: 0.6 !important;
+  }
+
+  .footer-right .back-to-top {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.75rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   PEMANGKAS SPACE KOSONG DI BAWAH FOOTER (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* 1. Dipangkas padding bawah footer utama */
+  footer,
+  .footer {
+    padding-bottom: 1rem !important; /* Dikecilkan dari 3rem */
+    padding-top: 1rem !important;
+  }
+
+  /* 2. Hilangkan margin/padding bawah berlebih dari elemen di atasnya */
+  .contact-actions {
+    margin-bottom: 2rem !important;  /* Dikecilkan dari 6rem desktop */
+  }
+
+  .contact-title {
+    margin-bottom: 2rem !important;  /* Dikecilkan dari 4rem desktop */
+  }
+}
+
+/* ==========================================================================
+   FOOTER SWAP ORDER (MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* Pembungkus Utama Footer */
+  .footer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  /* 1. NAIK KE ATAS: Copyright & Back To Top */
+  .footer-right {
+    order: 1 !important; /* Dipaksa tampil di posisi paling atas */
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .footer-right .copyright {
+    font-size: 0.7rem !important;
+    opacity: 0.6 !important;
+  }
+
+  .footer-right .back-to-top {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.75rem !important;
+    margin: 0 !important;
+  }
+
+  /* 2. TURUN KE BAWAH: Info Zaidan Ghifar / Creative Designer / Indonesia */
+  .footer-info {
+    order: 2 !important; /* Dipaksa tampil di bawah copyright */
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.05em !important;
+    opacity: 0.8 !important;
+  }
+
+  .footer-info span::after,
+  .footer-info span:not(:last-child)::after {
+    content: "" !important;
+    display: none !important;
+  }
+
+  .footer-info span:nth-child(1) { text-align: left; }
+  .footer-info span:nth-child(2) { text-align: center; }
+  .footer-info span:nth-child(3) { text-align: right; }
+}
+
+/* ==========================================================================
+   FOOTER KHUSUS MOBILE (DESKTOP TETAP AMAN)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* Pembungkus Utama Footer */
+  .footer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  /* 1. BARIS ATAS: Copyright & Back To Top Sejajar Samping-sampingan di Kanan */
+  .footer-right {
+    order: 1 !important; 
+    display: flex !important;
+    flex-direction: row !important;     /* Menyusun sejajar ke samping */
+    justify-content: flex-end !important;/* Mengunci posisi rapat ke kanan */
+    align-items: center !important;
+    width: 100% !important;
+    gap: 1.2rem !important;             /* Jarak antara 2026 dan Back To Top */
+  }
+
+  .footer-right .copyright {
+    font-size: 0.6rem !important;
+    opacity: 0.6 !important;
+  }
+
+  .footer-right .back-to-top {
+    font-size: 0.75rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 2. BARIS BAWAH: Info Zaidan Ghifar / Creative Designer / Indonesia */
+  .footer-info {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.05em !important;
+    opacity: 0.8 !important;
+  }
+
+  .footer-info span::after,
+  .footer-info span:not(:last-child)::after {
+    content: "" !important;
+    display: none !important;
+  }
+
+  .footer-info span:nth-child(1) { text-align: left; }
+  .footer-info span:nth-child(2) { text-align: center; }
+  .footer-info span:nth-child(3) { text-align: right; }
+}
+
+/* ==========================================================================
+   KONTROL INDEPENDEN EMAIL & TOMBOL PROJECT (KHUSUS MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+/* ------------------------------------------------------------------------
+     1. KHUSUS EMAIL + GARIS BORDER PANJANG
+     ------------------------------------------------------------------------ */
+  .contact-actions a.main-email {
+    font-size: 1.5rem !important;            /* Ukuran font email di mobile */
+    border-bottom: 1px solid #ffffff !important; /* Garis horizontal putih di bawahnya */
+    padding-bottom: 0.8rem !important;       /* Jarak teks email ke garis */
+    margin-bottom: 1.5rem !important;        /* Jarak garis ke tombol Start a Project */
+    display: block !important;
+    width: 85% !important;                  /* Biar garisnya membentang rapi */
+    background: transparent !important;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     2. ATUR UKURAN TOMBOL START A PROJECT SAJA (.cta-button)
+     ------------------------------------------------------------------------ */
+  .contact-actions a.cta-button {
+    font-size: 1rem !important;       /* <<< UBAH UKURAN TEKS TOMBOL DI SINI */
+    padding: 1rem 2rem !important;  /* <<< UBAH BESAR BANTALAN OVAL DI SINI */
+    min-width: unset !important;
+    width: fit-content !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ==========================================================================
+   KONTROL UKURAN SECTION "HOW I WORK" (KHUSUS MOBILE ONLY)
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+  /* 1. UKURAN NOMOR (01, 02, 03) */
+  .process-section .process-num {
+    font-size: 1rem !important; /* Ubah angka ini untuk besar/kecil nomor */
+  }
+
+  /* 2. UKURAN JUDUL (THINK, SKETCH, MAKE) */
+  .process-section .process-title {
+    font-size: 0.8rem !important;   /* Ubah angka ini untuk besar/kecil judul */
+  }
+
+  /* 3. UKURAN DESKRIPSI (Research, strategy and ideas...) */
+  .process-section .process-desc {
+    font-size: 0.5rem !important;/* Ubah angka ini untuk besar/kecil deskripsi */
+  }
+
+  /* ==========================================================================
+   UKURAN FONT HEADER GLOBAL (KHUSUS MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+  /* 1. UKURAN LOGO BRAND "ZAIDAN GHIFAR" */
+  .header .brand-logo {
+    font-size: 0.75rem !important; /* <--- Ubah ukuran logo brand di sini */
+  }
+
+  /* 2. UKURAN MENU NAVIGASI (ABOUT, WORKS, CONTACT) */
+  .header .nav-links a {
+    font-size: 0.7rem !important;  /* <--- Ubah ukuran teks menu di sini */
+  }
+
+  /* optional: atur ulang spasi antar menu biar makin pas di mobile */
+  .header .nav-links {
+    gap: 0.8rem !important;        /* Jarak antar kata (About, Works, Contact) */
+  }
+
+}
+
+}
+
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clothing Design — Zaidan Ghifar</title>
+  <link rel="stylesheet" href="page 5.css">
+</head>
+<body>
+
+  <!-- Overlay Gelap -->
+  <div class="bg-overlay"></div>
+
+  <!-- Tombol Kembali -->
+  <a href="../ikiweh.html#works" class="back-link">← BACK TO WORKS</a>
+
+  <!-- Tombol Navigasi -->
+  <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous Slide">&lt;</button>
+  <button class="nav-btn next-btn" id="nextBtn" aria-label="Next Slide">&gt;</button>
+
+  <!-- Viewport Slider -->
+  <div class="slider-viewport">
+    <div class="slider-track" id="sliderTrack">
+
+      <!-- SLIDE 1 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju1 depan.png" alt="Design 1 Mockup"></div>
+          <div class="card"><img src="../I depan (29x28).jpg" alt="Design 1 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju1 back.png" alt="Design 2 Mockup"></div>
+          <div class="card"><img src="../I belakang (27x27).jpg" alt="Design 2 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju2 depan.png" alt="Design 3 Mockup"></div>
+          <div class="card"><img src="../II (22x27).jpg" alt="Design 3 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju2 back.png" alt="Design 4 Mockup"></div>
+          <div class="card"><img src="../II belakang (29x13,5).jpg" alt="Design 4 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju3 depan.png" alt="Design 5 Mockup"></div>
+          <div class="card"><img src="../III depan (29x21).jpg" alt="Design 5 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju3 back.png" alt="Design 6 Mockup"></div>
+          <div class="card"><img src="../III belakang (25x21).jpg" alt="Design 6 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju4.png" alt="Design 7 Mockup"></div>
+          <div class="card"><img src="../IV (27x27).jpg" alt="Design 7 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../baju anava depan.png" alt="Design 8 Mockup"></div>
+          <div class="card"><img src="../baju anava belakang.png" alt="Design 8 Artwork"></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9 -->
+      <div class="slide-item">
+        <div class="card-grid">
+          <div class="card"><img src="../kemeja anava depan.png" alt="Design 9 Mockup"></div>
+          <div class="card"><img src="../kemeja anava belakang.png" alt="Design 9 Artwork"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    <script>
+    const track = document.getElementById('sliderTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slides = document.querySelectorAll('.slide-item');
+
+    let currentIndex = 0;
+
+    function updateSlider() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < slides.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Kembali ke slide awal
+      }
+      updateSlider();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = slides.length - 1; // Ke slide terakhir
+      }
+      updateSlider();
+    });
+  </script>
+</body>
+</html>
