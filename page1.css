@@ -246,6 +246,55 @@ body {
 }
 
 /* ==========================================================================
+   FIX UKURAN FONT & POSISI BACK TO WORKS (DESKTOP & MOBILE)
+   ========================================================================== */
+
+/* 1. TAMPILAN DESKTOP (Layar > 1024px) */
+@media (min-width: 1025px) {
+  .back-link,
+  .back-to-works,
+  a[href*="works"] {
+    position: absolute !important;
+    top: 30px !important;
+    left: 50px !important;
+    width: auto !important;
+    padding: 0 !important;
+    font-size: 0.82rem !important; /* Ukuran proporsional desktop */
+    mix-blend-mode: normal !important;
+    background: transparent !important;
+  }
+
+  body, main {
+    padding-top: 0 !important;
+  }
+}
+
+/* 2. TAMPILAN MOBILE (Layar <= 1024px) */
+@media (max-width: 1024px) {
+  .back-link,
+  .back-to-works,
+  a[href*="works"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 1.2rem 4vw !important;
+    font-size: 0.83rem !important; /* UKURAN FONT DISAMAKAN PERSIS DENGAN DESKTOP */
+    letter-spacing: 0.05em !important;
+    z-index: 1000 !important;
+    mix-blend-mode: difference !important;
+    color: #FFFFFF !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  body, main, .project-detail-container, .poster-wrapper {
+    padding-top: 3.5rem !important;
+  }
+}
+
+/* ==========================================================================
    FIX POSTER OVERLAP SAAT BELUM DI-SCROLL (MOBILE ONLY)
    ========================================================================== */
 @media (max-width: 1024px) {
